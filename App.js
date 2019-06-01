@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, FlatList } from "react-native";
+import { Platform, StyleSheet, Text, View, FlatList, Image } from "react-native";
 
 const baseUrl = "https://us-central1-frontend-demo-chat.cloudfunctions.net/v1";
 
@@ -16,8 +16,17 @@ type MessageCellProps = {
 };
 
 const MessageCell = (props: MessageCellProps) =>
-  <View>
-    <Text>{props.message.body}</Text>
+  <View style={styles.message}>
+    <Image
+      style={styles.messageUserAvatar}
+      source={props.message.user.avatar || require('./images/avator_blank.png')} />
+    <View style={styles.messageText}>
+      <View style={styles.messageAbout}>
+        <Text style={styles.messageUser}>@{props.message.user.name}</Text>
+        <Text style={styles.messageDate}>{props.message.date}</Text>
+      </View>
+      <Text style={styles.messageBody}>{props.message.body}</Text>
+    </View>
   </View>
 
 type Message = {
@@ -71,8 +80,7 @@ export default class App extends Component<Props, State> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "flex-start",
     backgroundColor: "#F5FCFF"
   },
   list: {
@@ -80,5 +88,41 @@ const styles = StyleSheet.create({
     // Platform Component
     // 大きさの単位は"dp"(画面密度(Retinaだと2)に関係なく指定できる)
     paddingTop: Platform.OS === 'ios' ? 40 : 0,
+  },
+  message: {
+    flex: 1,
+    marginLeft: 16,
+    marginRight: 16,
+    height: 72,
+    paddingTop: 16,
+    flexDirection: 'row',
+    borderBottomWidth: 1,
+    borderColor: '#eaeaea',
+  },
+  messageUserAvatar: {
+    width: 40,
+    height: 40,
+    marginRight: 16,
+  },
+  messageText: {
+    flex: 1,
+  },
+  messageAbout: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginBottom: 2,
+  },
+  messageUser: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  messageDate: {
+    marginLeft: 8,
+    fontSize: 12,
+    color: 'gray',
+  },
+  messageBody: {
+    fontSize: 14,
   }
 });
