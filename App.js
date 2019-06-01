@@ -19,8 +19,8 @@ const instructions = Platform.select({
 const baseUrl = "https://us-central1-frontend-demo-chat.cloudfunctions.net/v1";
 
 type Message = {
-  id: String,
-  body: String,
+  id: string,
+  body: string,
   user: {
     id: string,
     name: string,
