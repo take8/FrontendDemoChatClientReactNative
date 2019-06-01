@@ -40,6 +40,10 @@ type Message = {
   date: string
 };
 
+type PostMessage = {
+  body: string,
+}
+
 type State = {
   messages: Array<Message>,
   messageBody: string,
@@ -64,7 +68,22 @@ export default class App extends Component<Props, State> {
   }
 
   postMessage() {
-    alert(this.state.messageBody);
+    const payload: PostMessage = { body: this.state.messageBody };
+    fetch(
+      baseUrl + "/channels/general/messages",
+      {
+        method: "POST",
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      }
+    )
+      .then((response) => {
+        alert('送信しました。');
+      })
+      .catch((error) => console.log(error));
   }
 
   render() {
