@@ -67,6 +67,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5FCFF"
   },
   list: {
-    flex: 1
+    flex: 1,
+    // Platform Component
+    // 大きさの単位は"dp"(画面密度(Retinaだと2)に関係なく指定できる)
+    paddingTop: Platform.OS === 'ios' ? 40 : 0,
   }
 });
