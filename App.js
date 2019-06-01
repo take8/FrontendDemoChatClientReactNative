@@ -61,6 +61,10 @@ export default class App extends Component<Props, State> {
 
   componentDidMount() {
     // 初期データのダウンロード
+    this.fetchMessages();
+  }
+
+  fetchMessages() {
     fetch(baseUrl + "/channels/general/messages")
       .then(response => response.json())
       .then(json => this.setState({ messages: json.messages }))
@@ -81,7 +85,9 @@ export default class App extends Component<Props, State> {
       }
     )
       .then((response) => {
-        alert('送信しました。');
+        // alert('送信しました。');
+        this.fetchMessages();
+        this.setState({ messageBody: '' });
       })
       .catch((error) => console.log(error));
   }
