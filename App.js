@@ -41,7 +41,8 @@ type Message = {
 };
 
 type State = {
-  messages: Array<Message>
+  messages: Array<Message>,
+  messageBody: string,
 };
 
 type Props = {};
@@ -49,7 +50,8 @@ export default class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      messages: []
+      messages: [],
+      messageBody: '',
     };
   }
 
@@ -61,6 +63,10 @@ export default class App extends Component<Props, State> {
       .catch(error => console.log(error));
   }
 
+  postMessage() {
+    alert(this.state.messageBody);
+  }
+
   render() {
     console.log(this.state.messages);
     return (
@@ -68,10 +74,12 @@ export default class App extends Component<Props, State> {
         <View style={styles.action}>
           <TextInput
             style={styles.actionTextInput}
-            placeholder='Message #general' />
+            placeholder='Message #general'
+            onChangeText={(text) => this.setState({ messageBody: text })}
+            value={this.state.messageBody} />
           <Button
             title='Send'
-            onPress={() => alert('send')} />
+            onPress={() => this.postMessage()} />
         </View>
 
         {/* keyExtractor: dataを区別するためのidを取得する関数を設定する */}
