@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, FlatList, Image } from "react-native";
+import { Platform, StyleSheet, Text, View, FlatList, Image, TextInput, Button } from "react-native";
 
 const baseUrl = "https://us-central1-frontend-demo-chat.cloudfunctions.net/v1";
 
@@ -65,6 +65,15 @@ export default class App extends Component<Props, State> {
     console.log(this.state.messages);
     return (
       <View style={styles.container}>
+        <View style={styles.action}>
+          <TextInput
+            style={styles.actionTextInput}
+            placeholder='Message #general' />
+          <Button
+            title='Send'
+            onPress={() => alert('send')} />
+        </View>
+
         {/* keyExtractor: dataを区別するためのidを取得する関数を設定する */}
         <FlatList
           style={styles.list}
@@ -85,9 +94,6 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 1,
-    // Platform Component
-    // 大きさの単位は"dp"(画面密度(Retinaだと2)に関係なく指定できる)
-    paddingTop: Platform.OS === 'ios' ? 40 : 0,
   },
   message: {
     flex: 1,
@@ -124,5 +130,19 @@ const styles = StyleSheet.create({
   },
   messageBody: {
     fontSize: 14,
+  },
+  action: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderColor: '#eaeaea',
+    // Platform Component
+    // 大きさの単位は"dp"(画面密度(Retinaだと2)に関係なく指定できる)
+    paddingTop: Platform.OS === 'ios' ? 40 : 0,
+  },
+  actionTextInput: {
+    flex: 1,
+    paddingLeft: 16,
   }
 });
