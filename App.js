@@ -19,7 +19,7 @@ const MessageCell = (props: MessageCellProps) =>
   <View style={styles.message}>
     <Image
       style={styles.messageUserAvatar}
-      source={props.message.user.avatar || require('./images/avator_blank.png')} />
+      source={props.message.user.avatar || require('./images/avatar_blank.png')} />
     <View style={styles.messageText}>
       <View style={styles.messageAbout}>
         <Text style={styles.messageUser}>@{props.message.user.name}</Text>
