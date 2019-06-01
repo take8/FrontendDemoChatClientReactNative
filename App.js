@@ -11,6 +11,15 @@ import { Platform, StyleSheet, Text, View, FlatList } from "react-native";
 
 const baseUrl = "https://us-central1-frontend-demo-chat.cloudfunctions.net/v1";
 
+type MessageCellProps = {
+  message: Message
+};
+
+const MessageCell = (props: MessageCellProps) =>
+  <View>
+    <Text>{props.message.body}</Text>
+  </View>
+
 type Message = {
   id: string,
   body: string,
@@ -52,7 +61,7 @@ export default class App extends Component<Props, State> {
           style={styles.list}
           data={this.state.messages.slice().reverse()}
           keyExtractor={(item, index) => item.id}
-          renderItem={({ item }) => <Text>{item.body}</Text>}
+          renderItem={({ item }) => <MessageCell message={item} />}
         />
       </View>
     );
