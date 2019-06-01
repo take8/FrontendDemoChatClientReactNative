@@ -79,7 +79,8 @@ export default class App extends Component<Props, State> {
             value={this.state.messageBody} />
           <Button
             title='Send'
-            onPress={() => this.postMessage()} />
+            onPress={() => this.postMessage()}
+            disabled={this.state.messageBody.length === 0} />
         </View>
 
         {/* keyExtractor: dataを区別するためのidを取得する関数を設定する */}
