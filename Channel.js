@@ -7,7 +7,10 @@
  */
 
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, FlatList, Image, TextInput, Button, TouchableOpacity } from "react-native";
+import {
+  Platform, StyleSheet, Text, View, FlatList, Image, TextInput, Button,
+  TouchableOpacity, ActivityIndicator
+} from "react-native";
 import { type NavigationScreenProp } from "react-navigation";
 
 const baseUrl = "https://us-central1-frontend-demo-chat.cloudfunctions.net/v1";
@@ -48,6 +51,7 @@ type PostMessage = {
 type State = {
   messages: Array<Message>,
   messageBody: string,
+  isLoading: boolean,
 };
 
 type Props = {
@@ -74,6 +78,7 @@ export default class Channel extends Component<Props, State> {
     this.state = {
       messages: [],
       messageBody: '',
+      isLoading: false,
     };
   }
 
@@ -89,10 +94,18 @@ export default class Channel extends Component<Props, State> {
   }
 
   fetchMessages() {
+    // メッセージ取得前にtrueにしておく
+    this.setState({ isLoading: true });
     fetch(this.getEndpointUrl())
       .then(response => response.json())
-      .then(json => this.setState({ messages: json.messages }))
-      .catch(error => console.log(error));
+      .then(json => this.setState({
+        messages: json.messages,
+        isLoading: false
+      }))
+      .catch(error => {
+        console.log(error);
+        this.setState({ isLoading: false });
+      });
   }
 
   postMessage() {
@@ -130,13 +143,16 @@ export default class Channel extends Component<Props, State> {
             disabled={this.state.messageBody.length === 0} />
         </View>
 
-        {/* keyExtractor: dataを区別するためのidを取得する関数を設定する */}
-        <FlatList
-          style={styles.list}
-          data={this.state.messages.slice().reverse()}
-          keyExtractor={(item, index) => item.id}
-          renderItem={({ item }) => <MessageCell message={item} />}
-        />
+        {/* ローディング中は ActivityIndicator を表示する */}
+        {this.state.isLoading ? <ActivityIndicator style={styles.activityIndicator} /> :
+          // keyExtractor: dataを区別するためのidを取得する関数を設定する
+          <FlatList
+            style={styles.list}
+            data={this.state.messages.slice().reverse()}
+            keyExtractor={(item, index) => item.id}
+            renderItem={({ item }) => <MessageCell message={item} />}
+          />
+        }
       </View>
     );
   }
@@ -200,5 +216,8 @@ const styles = StyleSheet.create({
   actionTextInput: {
     flex: 1,
     paddingLeft: 16,
+  },
+  activityIndicator: {
+    flex: 1,
   }
 });
