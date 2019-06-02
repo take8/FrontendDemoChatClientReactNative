@@ -10,41 +10,40 @@ import React, { Component } from "react";
 import { StackNavigator, DrawerNavigator } from "react-navigation";
 import Channel from "./Channel";
 
-const AppDrawerNavigator = DrawerNavigator({
-  // generalチャンネル
-  general: {
-    screen: StackNavigator(
-      {
-        Home: { screen: Channel }
-      }, {
-        initialRouteParams: {
-          channelName: 'general'
+export default class App extends Component<{}> {
+  channels: Array<string>;
+  _AppDrawerNavigator: any;
+
+  constructor(props: {}) {
+    super(props);
+    this.channels = ['general', 'random'];
+
+    let drawerMenus: any = new Object();
+    this.channels.forEach(channelName => {
+      Object.assign(drawerMenus, { [channelName]: this.createDrawerMenu(channelName) });
+    });
+    this._AppDrawerNavigator = DrawerNavigator(drawerMenus);
+  }
+
+  createDrawerMenu(channelName: string) {
+    return {
+      screen: StackNavigator(
+        {
+          Home: { screen: Channel }
+        }, {
+          initialRouteParams: {
+            channelName: channelName
+          }
         }
+      ),
+      navigatorOptions: {
+        drawerLabel: `# ${channelName}`
       }
-    ),
-    navigatorOptions: {
-      drawerLabel: '# general'
-    }
-  },
-  // randomチャンネル
-  random: {
-    screen: StackNavigator(
-      {
-        Home: { screen: Channel }
-      }, {
-        initialRouteParams: {
-          channelName: 'random'
-        }
-      }
-    ),
-    navigatorOptions: {
-      drawerLabel: '# random'
     }
   }
-});
 
-export default class App extends Component<{}> {
   render() {
+    const AppDrawerNavigator: any = this._AppDrawerNavigator;
     return <AppDrawerNavigator />;
   }
 }
