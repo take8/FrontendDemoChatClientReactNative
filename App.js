@@ -7,25 +7,44 @@
  */
 
 import React, { Component } from "react";
-import { StackNavigator } from "react-navigation";
+import { StackNavigator, DrawerNavigator } from "react-navigation";
 import Channel from "./Channel";
 
-// ChannelコンポーネントがHomeというルートに表示されるStackNavigatorの定義
-const ChannelNavigator = StackNavigator(
-  {
-    Home: {
-      screen: Channel,
+const AppDrawerNavigator = DrawerNavigator({
+  // generalチャンネル
+  general: {
+    screen: StackNavigator(
+      {
+        Home: { screen: Channel }
+      }, {
+        initialRouteParams: {
+          channelName: 'general'
+        }
+      }
+    ),
+    navigatorOptions: {
+      drawerLabel: '# general'
     }
   },
-  {
-    initialRouteParams: {
-      channelName: 'general'
+  // randomチャンネル
+  random: {
+    screen: StackNavigator(
+      {
+        Home: { screen: Channel }
+      }, {
+        initialRouteParams: {
+          channelName: 'random'
+        }
+      }
+    ),
+    navigatorOptions: {
+      drawerLabel: '# random'
     }
   }
-);
+});
 
 export default class App extends Component<{}> {
   render() {
-    return <ChannelNavigator />;
+    return <AppDrawerNavigator />;
   }
 }

@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from "react";
-import { Platform, StyleSheet, Text, View, FlatList, Image, TextInput, Button } from "react-native";
+import { Platform, StyleSheet, Text, View, FlatList, Image, TextInput, Button, TouchableOpacity } from "react-native";
 import { type NavigationScreenProp } from "react-navigation";
 
 const baseUrl = "https://us-central1-frontend-demo-chat.cloudfunctions.net/v1";
@@ -57,7 +57,16 @@ type Props = {
 export default class Channel extends Component<Props, State> {
   static navigationOptions = ({ navigation }: { navigation: NavigationScreenProp<*> }) => ({
     // ヘッダのタイトル
-    title: `#${navigation.state.params.channelName}`
+    title: `#${navigation.state.params.channelName}`,
+    headerLeft:
+      // ボタンの見た目を変更したい場合は TouchableOpacity を使用する
+      <TouchableOpacity
+        style={{ padding: 8 }}
+        onPress={() => navigation.navigate('DrawerToggle')}>
+        <Image
+          style={{ width: 32, height: 32 }}
+          source={require('./images/menu_icon.png')} />
+      </TouchableOpacity>
   });
 
   constructor(props: Props) {
