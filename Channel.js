@@ -8,6 +8,7 @@
 
 import React, { Component } from "react";
 import { Platform, StyleSheet, Text, View, FlatList, Image, TextInput, Button } from "react-native";
+import { type NavigationScreenProp } from "react-navigation";
 
 const baseUrl = "https://us-central1-frontend-demo-chat.cloudfunctions.net/v1";
 
@@ -49,8 +50,16 @@ type State = {
   messageBody: string,
 };
 
-type Props = {};
+type Props = {
+  navigation: NavigationScreenProp<*>,
+};
+
 export default class Channel extends Component<Props, State> {
+  static navigationOptions = ({ navigation }: { navigation: NavigationScreenProp<*> }) => ({
+    // ヘッダのタイトル
+    title: '#general'
+  });
+
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -171,9 +180,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderColor: '#eaeaea',
-    // Platform Component
-    // 大きさの単位は"dp"(画面密度(Retinaだと2)に関係なく指定できる)
-    paddingTop: Platform.OS === 'ios' ? 40 : 0,
+    // // Platform Component
+    // // 大きさの単位は"dp"(画面密度(Retinaだと2)に関係なく指定できる)
+    // paddingTop: Platform.OS === 'ios' ? 40 : 0,
   },
   actionTextInput: {
     flex: 1,

@@ -33,3 +33,9 @@ flow の実行
 ```sh
 npx flow
 ```
+
+npm パッケージ特有の型は flow-typed で管理されている
+
+```sh
+npx flow-typed install -f v0.92.0 react-navigation@1.5.8
+```
