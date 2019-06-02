@@ -39,3 +39,14 @@ npm パッケージ特有の型は flow-typed で管理されている
 ```sh
 npx flow-typed install -f v0.92.0 react-navigation@1.5.8
 ```
+
+## Debug
+
+iOS シミュレータの場合  
+Cmd + D -> Toggle Inspector
+でブラウザの Developer Tools のような操作ができる。
+
+## Tips
+
+npm パッケージをインストールしたらシミュレータを再起動した方が良い。  
+リロードしてもエラーになったが、再起動で復旧するケースがあった。
