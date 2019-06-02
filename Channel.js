@@ -57,7 +57,7 @@ type Props = {
 export default class Channel extends Component<Props, State> {
   static navigationOptions = ({ navigation }: { navigation: NavigationScreenProp<*> }) => ({
     // ヘッダのタイトル
-    title: '#general'
+    title: `#${navigation.state.params.channelName}`
   });
 
   constructor(props: Props) {
@@ -73,8 +73,14 @@ export default class Channel extends Component<Props, State> {
     this.fetchMessages();
   }
 
+  getEndpointUrl(): string {
+    // `this.props.navigation.state.params`からチャンネル名を取得する
+    const { channelName } = this.props.navigation.state.params;
+    return `${baseUrl}/channels/${channelName}/messages`;
+  }
+
   fetchMessages() {
-    fetch(baseUrl + "/channels/general/messages")
+    fetch(this.getEndpointUrl())
       .then(response => response.json())
       .then(json => this.setState({ messages: json.messages }))
       .catch(error => console.log(error));
@@ -82,17 +88,14 @@ export default class Channel extends Component<Props, State> {
 
   postMessage() {
     const payload: PostMessage = { body: this.state.messageBody };
-    fetch(
-      baseUrl + "/channels/general/messages",
-      {
-        method: "POST",
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload)
-      }
-    )
+    fetch(this.getEndpointUrl(), {
+      method: "POST",
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    })
       .then((response) => {
         // alert('送信しました。');
         this.fetchMessages();
@@ -103,12 +106,13 @@ export default class Channel extends Component<Props, State> {
 
   render() {
     console.log(this.state.messages);
+    const { channelName } = this.props.navigation.state.params;
     return (
       <View style={styles.container}>
         <View style={styles.action}>
           <TextInput
             style={styles.actionTextInput}
-            placeholder='Message #general'
+            placeholder={`Message #${channelName}`}
             onChangeText={(text) => this.setState({ messageBody: text })}
             value={this.state.messageBody} />
           <Button

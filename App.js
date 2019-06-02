@@ -11,11 +11,18 @@ import { StackNavigator } from "react-navigation";
 import Channel from "./Channel";
 
 // ChannelコンポーネントがHomeというルートに表示されるStackNavigatorの定義
-const ChannelNavigator = StackNavigator({
-  Home: {
-    screen: Channel,
+const ChannelNavigator = StackNavigator(
+  {
+    Home: {
+      screen: Channel,
+    }
+  },
+  {
+    initialRouteParams: {
+      channelName: 'general'
+    }
   }
-});
+);
 
 export default class App extends Component<{}> {
   render() {
